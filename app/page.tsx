@@ -1,95 +1,150 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client"
 
-export default function Home() {
+import React, { useState } from "react";
+import {
+  Box,
+  Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+  makeStyles,
+  createStyles,
+  Theme,
+  AppBar,
+  Tabs,
+  Tab,
+} from "@mui/material";
+import Deslocamento from "./components/Deslocamento";
+import Clientes from "./components/Clientes";
+import Condutor from "./components/Condutor";
+import Veiculo from "./components/Veiculo";
+import RegisterClient from "./components/RegisterClient";
+import RegisterCondutor from "./components/RegisterCondutor";
+import RegisterVeiculo from "./components/RegisterVeiculo";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    container: {
+      background: theme.palette.background.default,
+      minHeight: "100vh",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    content: {
+      background: theme.palette.background.paper,
+      padding: theme.spacing(3),
+      borderRadius: theme.shape.borderRadius,
+    },
+    select: {
+      marginBottom: theme.spacing(2),
+    },
+    appBar: {
+      backgroundColor: theme.palette.primary.main,
+    },
+  })
+);
+
+const App: React.FC = () => {
+  const classes = useStyles();
+  const [selectedComponent, setSelectedComponent] = useState<
+    "deslocamento" | "clientes" | "condutor" | "veiculo"
+  >("deslocamento");
+  const [activeTab, setActiveTab] = useState(0);
+
+  const handleComponentChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    setSelectedComponent(
+      event.target.value as "deslocamento" | "clientes" | "condutor" | "veiculo"
+    );
+  };
+
+  const handleTabChange = (
+    event: React.ChangeEvent<{}>,
+    newValue: number
+  ) => {
+    setActiveTab(newValue);
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div>
+      <AppBar position="static" className={classes.appBar}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Tabs value={activeTab} onChange={handleTabChange}>
+            <Tab label="Verificar Dados" />
+            <Tab label="Criar Dados" />
+          </Tabs>
         </div>
-      </div>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      </AppBar>
+      <Container className={classes.container}>
+        <Box className={classes.content}>
+          {activeTab === 0 ? (
+            <>
+              <Typography variant="h4" align="center" gutterBottom>
+                Verificar Dados
+              </Typography>
+              <FormControl variant="outlined" fullWidth className={classes.select}>
+                <InputLabel id="component-select-label">Busca</InputLabel>
+                <Select
+                  labelId="component-select-label"
+                  id="component-select"
+                  value={selectedComponent}
+                  onChange={handleComponentChange}
+                  label="Componente"
+                >
+                  <MenuItem value="deslocamento">Deslocamento</MenuItem>
+                  <MenuItem value="clientes">Clientes</MenuItem>
+                  <MenuItem value="condutor">Condutor</MenuItem>
+                  <MenuItem value="veiculo">Veículo</MenuItem>
+                </Select>
+              </FormControl>
+              {selectedComponent === "deslocamento" ? (
+                <Deslocamento id={0} />
+              ) : selectedComponent === "clientes" ? (
+                <Clientes />
+              ) : selectedComponent === "condutor" ? (
+                <Condutor />
+              ) : (
+                <Veiculo />
+              )}
+            </>
+          ) : (
+            <>
+              <Typography variant="h4" align="center" gutterBottom>
+                Criar Dados
+              </Typography>
+              <FormControl variant="outlined" fullWidth className={classes.select}>
+                <InputLabel id="create-select-label">Tipo de Dado</InputLabel>
+                <Select
+                  labelId="create-select-label"
+                  id="create-select"
+                  value={selectedComponent}
+                  onChange={handleComponentChange}
+                  label="Tipo de Dado"
+                >
+                  <MenuItem value="clientes">Cliente</MenuItem>
+                  <MenuItem value="condutor">Condutor</MenuItem>
+                  <MenuItem value="veiculo">Veículo</MenuItem>
+                  <MenuItem value="deslocamento">Deslocamento</MenuItem>
+                </Select>
+              </FormControl>
+              {selectedComponent === "clientes" ? (
+                <RegisterClient />
+              ) : selectedComponent === "condutor" ? (
+                <RegisterCondutor />
+              ) : selectedComponent === "veiculo" && (
+                <RegisterVeiculo />
+              )}
+            </>
+          )}
+        </Box>
+      </Container>
+    </div>
+  );
+};
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+export default App;
