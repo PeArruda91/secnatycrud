@@ -1,122 +1,91 @@
-"use client"
-
 import React, { useEffect, useState } from "react";
-import { DeslocamentoData, getDeslocamentos } from "../api/apiDeslocamento";
+import {
+  CondutorData,
+  getCondutores,
+  deleteCondutor
+} from "../api/apiCondutor";
+import ModalCondutor from "../modalComponents/ModalCondutor";
 import {
   Box,
   Container,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Typography,
-  makeStyles,
-  createStyles,
-  Theme,
+  Button
 } from "@mui/material";
 
-interface DeslocamentoProps {
-  id: number;
-}
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      background: theme.palette.background.default,
-      minHeight: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    content: {
-      background: theme.palette.background.paper,
-      padding: theme.spacing(3),
-      borderRadius: theme.shape.borderRadius,
-    },
-    select: {
-      minWidth: 200,
-    },
-  })
-);
-
-const Deslocamento: React.FC<DeslocamentoProps> = ({ id }) => {
-  const classes = useStyles();
-  const [deslocamento, setDeslocamento] = useState<DeslocamentoData | null>(
-    null
-  );
-  const [deslocamentos, setDeslocamentos] = useState<DeslocamentoData[]>([]);
+const Deslocamento: React.FC = () => {
+  const [condutores, setCondutores] = useState<CondutorData[]>([]);  
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedClientId, setSelectedClientId] = useState<number>(Number);
 
   useEffect(() => {
-    const fetchDeslocamentos = async () => {
-      const data = await getDeslocamentos();
-      setDeslocamentos(data);
-      const selected = data.find((item) => item.id === id);
-      setDeslocamento(selected || null);
+    const fetchCondutores = async () => {
+      const data = await getCondutores();
+      setCondutores(data);
     };
 
-    fetchDeslocamentos();
-  }, [id]);
+    fetchCondutores();
+  }, []);
 
-  const handleSelectChange = (event: React.ChangeEvent<{ value: number }>) => {
-    const selected = deslocamentos.find((item) => item.id === event.target.value);
-    setDeslocamento(selected || null);
+  const handleExcluirCondutor = async (id: number) => {
+    try {
+      await deleteCondutor(id);
+      // Atualiza a lista de condutores após a exclusão
+      const data = await getCondutores();
+      setCondutores(data);
+      console.log("Condutor excluído com sucesso");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
-    <Container className={classes.container}>
-      <Box className={classes.content}>
+    <Container>
+      <Box>
         <Typography variant="h4" align="center" gutterBottom>
-          Deslocamento
+          Condutores
         </Typography>
-        <FormControl className={classes.select}>
-          <InputLabel>ID</InputLabel>
-          <Select value={id} onChange={handleSelectChange} fullWidth>
-            {deslocamentos.map((item) => (
-              <MenuItem key={item.id} value={item.id}>
-                {item.id}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        {deslocamento ? (
-          <div>
-            <Typography variant="body1">
-              ID: {deslocamento.id}
-            </Typography>
-            <Typography variant="body1">
-              Km Inicial: {deslocamento.kmInicial}
-            </Typography>
-            <Typography variant="body1">
-              Km Final: {deslocamento.kmFinal || "N/A"}
-            </Typography>
-            <Typography variant="body1">
-              Início do Deslocamento: {deslocamento.inicioDeslocamento}
-            </Typography>
-            <Typography variant="body1">
-              Fim do Deslocamento: {deslocamento.fimDeslocamento || "N/A"}
-            </Typography>
-            <Typography variant="body1">
-              Checklist: {deslocamento.checkList}
-            </Typography>
-            <Typography variant="body1">
-              Motivo: {deslocamento.motivo}
-            </Typography>
-            <Typography variant="body1">
-              Observação: {deslocamento.observacao}
-            </Typography>
-            <Typography variant="body1">
-              ID do Condutor: {deslocamento.idCondutor}
-            </Typography>
-            <Typography variant="body1">
-              ID do Veículo: {deslocamento.idVeiculo}
-            </Typography>
-            <Typography variant="body1">
-              ID do Cliente: {deslocamento.idCliente}
-            </Typography>
-          </div>
+        {condutores.length > 0 ? (
+          condutores.map((condutor) => (
+            <div key={condutor.id}>
+              <Typography variant="body1">ID: {condutor.id}</Typography>
+              <Typography variant="body1">Nome: {condutor.nome}</Typography>
+              <Typography variant="body1">
+                Número da Habilitação: {condutor.numeroHabilitacao}
+              </Typography>
+              <Typography variant="body1">
+                Categoria da Habilitação: {condutor.categoriaHabilitacao}
+              </Typography>
+              <Typography variant="body1">
+                Vencimento da Habilitação: {condutor.vencimentoHabilitacao}
+              </Typography>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => handleExcluirCondutor(condutor.id)}
+              >
+                Excluir
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  setSelectedClientId(condutor.id);
+                  setOpenModal(true);
+                }}
+              >
+                Atualizar
+              </Button>
+              <br />
+            </div>
+          ))
         ) : (
-          <Typography variant="body1">Deslocamento não encontrado.</Typography>
+          <Typography variant="body1">Nenhum condutor encontrado.</Typography>
         )}
+        <ModalCondutor
+          open={openModal}
+          onClose={() => setOpenModal(false)}
+          clientId={selectedClientId}
+        />
       </Box>
     </Container>
   );

@@ -8,36 +8,11 @@ import ModalCondutor from "../modalComponents/ModalCondutor";
 import {
   Box,
   Container,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Typography,
-  makeStyles,
-  createStyles,
-  Theme,
   Button
 } from "@mui/material";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      background: theme.palette.background.default,
-      minHeight: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center"
-    },
-    content: {
-      background: theme.palette.background.paper,
-      padding: theme.spacing(3),
-      borderRadius: theme.shape.borderRadius
-    }
-  })
-);
-
 const Condutor: React.FC = () => {
-  const classes = useStyles();
   const [condutores, setCondutores] = useState<CondutorData[]>([]);  
   const [openModal, setOpenModal] = useState(false);
   const [selectedClientId, setSelectedClientId] = useState<number>(Number);
@@ -64,8 +39,8 @@ const Condutor: React.FC = () => {
   };
 
   return (
-    <Container className={classes.container}>
-      <Box className={classes.content}>
+    <Container>
+      <Box>
         <Typography variant="h4" align="center" gutterBottom>
           Condutores
         </Typography>

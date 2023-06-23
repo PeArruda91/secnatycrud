@@ -9,8 +9,6 @@ import {
   MenuItem,
   Select,
   Typography,
-  makeStyles,
-  createStyles,
   Theme,
   AppBar,
   Tabs,
@@ -24,31 +22,29 @@ import RegisterClient from "./components/RegisterClient";
 import RegisterCondutor from "./components/RegisterCondutor";
 import RegisterVeiculo from "./components/RegisterVeiculo";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      background: theme.palette.background.default,
-      minHeight: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    content: {
-      background: theme.palette.background.paper,
-      padding: theme.spacing(3),
-      borderRadius: theme.shape.borderRadius,
-    },
-    select: {
-      marginBottom: theme.spacing(2),
-    },
-    appBar: {
-      backgroundColor: theme.palette.primary.main,
-    },
-  })
-);
+const containerStyle: React.CSSProperties = {
+  background: "default",
+  minHeight: "100vh",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+};
+
+const contentStyle: React.CSSProperties = {
+  background: "paper",
+  padding: "24px",
+  borderRadius: "4px",
+};
+
+const selectStyle: React.CSSProperties = {
+  marginBottom: "16px",
+};
+
+const appBarStyle: React.CSSProperties = {
+  backgroundColor: "primary",
+};
 
 const App: React.FC = () => {
-  const classes = useStyles();
   const [selectedComponent, setSelectedComponent] = useState<
     "deslocamento" | "clientes" | "condutor" | "veiculo"
   >("deslocamento");
@@ -71,23 +67,22 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <AppBar position="static" className={classes.appBar}>
+      <AppBar position="static" style={appBarStyle}>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Tabs value={activeTab} onChange={handleTabChange}>
             <Tab label="Verificar Dados" />
             <Tab label="Criar Dados" />
           </Tabs>
         </div>
-
       </AppBar>
-      <Container className={classes.container}>
-        <Box className={classes.content}>
+      <Container style={containerStyle}>
+        <Box style={contentStyle}>
           {activeTab === 0 ? (
             <>
               <Typography variant="h4" align="center" gutterBottom>
                 Verificar Dados
               </Typography>
-              <FormControl variant="outlined" fullWidth className={classes.select}>
+              <FormControl variant="outlined" fullWidth style={selectStyle}>
                 <InputLabel id="component-select-label">Busca</InputLabel>
                 <Select
                   labelId="component-select-label"
@@ -117,7 +112,7 @@ const App: React.FC = () => {
               <Typography variant="h4" align="center" gutterBottom>
                 Criar Dados
               </Typography>
-              <FormControl variant="outlined" fullWidth className={classes.select}>
+              <FormControl variant="outlined" fullWidth style={selectStyle}>
                 <InputLabel id="create-select-label">Tipo de Dado</InputLabel>
                 <Select
                   labelId="create-select-label"

@@ -1,43 +1,12 @@
 "use client"
 
-import React, { useEffect, useState } from "react";
-import { makeStyles } from "@mui/material/styles";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
-
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-    outline: "none",
-    borderRadius: theme.spacing(1),
-    maxWidth: 400,
-  },
-  loadingContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: 200,
-  },
-  fieldContainer: {
-    marginBottom: theme.spacing(2),
-  },
-  buttonContainer: {
-    display: "flex",
-    justifyContent: "flex-end",
-    marginTop: theme.spacing(2),
-  },
-}));
 
 interface ModalComponentProps {
   open: boolean;
@@ -46,12 +15,11 @@ interface ModalComponentProps {
 }
 
 const ModalComponent: React.FC<ModalComponentProps> = ({ open, onClose, clientId }) => {
-  const classes = useStyles();
   const [isLoading, setIsLoading] = useState(true);
   const [clientData, setClientData] = useState<any>(null);
   const [editedData, setEditedData] = useState<any>({});
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setEditedData((prevData: any) => ({
       ...prevData,
@@ -97,10 +65,23 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ open, onClose, clientId
   }, [open, clientId]);
 
   return (
-    <Modal open={open} onClose={onClose} className={classes.modal}>
-      <div className={classes.paper}>
+    <Modal open={open} onClose={onClose}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         {isLoading ? (
-          <div className={classes.loadingContainer}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: 200,
+            }}
+          >
             <CircularProgress />
           </div>
         ) : (
@@ -108,7 +89,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ open, onClose, clientId
             {clientData ? (
               <>
                 <Typography variant="h6">Dados</Typography>
-                <div className={classes.fieldContainer}>
+                <div style={{ marginBottom: 16 }}>
                   <TextField
                     name="nome"
                     label="Name"
@@ -117,7 +98,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ open, onClose, clientId
                     fullWidth
                   />
                 </div>
-                <div className={classes.fieldContainer}>
+                <div style={{ marginBottom: 16 }}>
                   <TextField
                     name="logradouro"
                     label="Address"
@@ -126,7 +107,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ open, onClose, clientId
                     fullWidth
                   />
                 </div>
-                <div className={classes.fieldContainer}>
+                <div style={{ marginBottom: 16 }}>
                   <TextField
                     name="logradouro"
                     label="Numero"
@@ -135,7 +116,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ open, onClose, clientId
                     fullWidth
                   />
                 </div>
-                <div className={classes.fieldContainer}>
+                <div style={{ marginBottom: 16 }}>
                   <TextField
                     name="numero"
                     label="Bairro"
@@ -144,7 +125,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ open, onClose, clientId
                     fullWidth
                   />
                 </div>
-                <div className={classes.fieldContainer}>
+                <div style={{ marginBottom: 16 }}>
                   <TextField
                     name="logradouro"
                     label="Cidade"
@@ -153,7 +134,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ open, onClose, clientId
                     fullWidth
                   />
                 </div>
-                <div className={classes.fieldContainer}>
+                <div style={{ marginBottom: 16 }}>
                   <TextField
                     name="logradouro"
                     label="UF"
@@ -163,14 +144,14 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ open, onClose, clientId
                   />
                 </div>
                 {/* Add more fields as needed */}
-                <div className={classes.buttonContainer}>
+                <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 16 }}>
                   <Button variant="contained" color="primary" onClick={handleSave}>
                     Atualizar
                   </Button>
                 </div>
               </>
             ) : (
-              <Typography variant="body1"> Cliente atualizado com sucesso.</Typography>
+              <Typography variant="body1">Cliente atualizado com sucesso.</Typography>
             )}
           </>
         )}

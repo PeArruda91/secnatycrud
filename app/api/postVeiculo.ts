@@ -3,8 +3,8 @@ import axios from "axios";
 const postVeiculo = (formData: {
     placa: string;
     marcaModelo: string;
-    anoFabricacao: number;
-    kmAtual: number;
+    anoFabricacao: string;
+    kmAtual: string;
 }) => {
   const options = {
     method: 'POST',

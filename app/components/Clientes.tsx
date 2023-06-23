@@ -6,35 +6,11 @@ import {
   Box,
   Container,
   Typography,
-  makeStyles,
-  createStyles,
-  Theme,
   Button,
 } from "@mui/material";
 import ModalComponent from "../modalComponents/ModalComponent";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      background: theme.palette.background.default,
-      minHeight: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    content: {
-      background: theme.palette.background.paper,
-      padding: theme.spacing(3),
-      borderRadius: theme.shape.borderRadius,
-    },
-    deleteButton: {
-      marginLeft: theme.spacing(1),
-    },
-  })
-);
-
 const Clientes: React.FC = () => {
-  const classes = useStyles();
   const [clientes, setClientes] = useState<ClienteData[]>([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedClientId, setSelectedClientId] = useState<number>(Number);
@@ -55,8 +31,8 @@ const Clientes: React.FC = () => {
   };
 
   return (
-    <Container className={classes.container}>
-      <Box className={classes.content}>
+    <Container>
+      <Box>
         <Typography variant="h4" align="center" gutterBottom>
           Clientes
         </Typography>
@@ -87,7 +63,6 @@ const Clientes: React.FC = () => {
               <Button
                 variant="contained"
                 color="secondary"
-                className={classes.deleteButton}
                 onClick={() => handleDeleteCliente(cliente.id)}
               >
                 Excluir

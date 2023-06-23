@@ -1,31 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { VeiculoData, getVeiculos, deleteVeiculo } from "../api/apiVeiculo";
-import { Box, Container, Typography, makeStyles, createStyles, Theme, Button } from "@mui/material";
+import { Box, Container, Typography, Button } from "@mui/material";
 import ModalVeiculo from "../modalComponents/ModalVeiculo";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      background: theme.palette.background.default,
-      minHeight: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    content: {
-      background: theme.palette.background.paper,
-      padding: theme.spacing(3),
-      borderRadius: theme.shape.borderRadius,
-    },
-  })
-);
-
 const Veiculo: React.FC = () => {
-  const classes = useStyles();
   const [veiculos, setVeiculos] = useState<VeiculoData[]>([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedClientId, setSelectedClientId] = useState<number>(Number);
-
 
   useEffect(() => {
     const fetchVeiculos = async () => {
@@ -39,18 +20,17 @@ const Veiculo: React.FC = () => {
   const handleExcluirCondutor = async (id: number) => {
     try {
       await deleteVeiculo(id);
-      // Atualiza a lista de condutores após a exclusão
       const data = await getVeiculos();
       setVeiculos(data);
-      console.log("Condutor excluído com sucesso");
+      console.log("Veículo excluído com sucesso");
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <Container className={classes.container}>
-      <Box className={classes.content}>
+    <Container>
+      <Box>
         <Typography variant="h4" align="center" gutterBottom>
           Veículos
         </Typography>
@@ -59,9 +39,15 @@ const Veiculo: React.FC = () => {
             <div key={veiculo.id}>
               <Typography variant="body1">ID: {veiculo.id}</Typography>
               <Typography variant="body1">Placa: {veiculo.placa}</Typography>
-              <Typography variant="body1">Marca/Modelo: {veiculo.marcaModelo}</Typography>
-              <Typography variant="body1">Ano de Fabricação: {veiculo.anoFabricacao}</Typography>
-              <Typography variant="body1">KM Atual: {veiculo.kmAtual}</Typography>
+              <Typography variant="body1">
+                Marca/Modelo: {veiculo.marcaModelo}
+              </Typography>
+              <Typography variant="body1">
+                Ano de Fabricação: {veiculo.anoFabricacao}
+              </Typography>
+              <Typography variant="body1">
+                KM Atual: {veiculo.kmAtual}
+              </Typography>
               <Button
                 variant="contained"
                 color="secondary"
@@ -85,9 +71,11 @@ const Veiculo: React.FC = () => {
         ) : (
           <Typography variant="body1">Nenhum veículo encontrado.</Typography>
         )}
-        <ModalVeiculo open={openModal}
+        <ModalVeiculo
+          open={openModal}
           onClose={() => setOpenModal(false)}
-          clientId={selectedClientId} />
+          clientId={selectedClientId}
+        />
       </Box>
     </Container>
   );
