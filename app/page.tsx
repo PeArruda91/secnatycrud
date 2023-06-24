@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import {
   Box,
   Container,
@@ -13,6 +13,7 @@ import {
   AppBar,
   Tabs,
   Tab,
+  SelectChangeEvent,
 } from "@mui/material";
 import Deslocamento from "./components/Deslocamento";
 import Clientes from "./components/Clientes";
@@ -51,7 +52,7 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   const handleComponentChange = (
-    event: React.ChangeEvent<{ value: unknown }>
+    event: SelectChangeEvent<"clientes" | "deslocamento" | "condutor" | "veiculo">, child: ReactNode
   ) => {
     setSelectedComponent(
       event.target.value as "deslocamento" | "clientes" | "condutor" | "veiculo"
@@ -98,7 +99,7 @@ const App: React.FC = () => {
                 </Select>
               </FormControl>
               {selectedComponent === "deslocamento" ? (
-                <Deslocamento id={0} />
+                <Deslocamento  />
               ) : selectedComponent === "clientes" ? (
                 <Clientes />
               ) : selectedComponent === "condutor" ? (
