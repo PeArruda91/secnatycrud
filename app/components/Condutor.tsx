@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 
 const Condutor: React.FC = () => {
-  const [condutores, setCondutores] = useState<CondutorData[]>([]);  
+  const [condutores, setCondutores] = useState<CondutorData[]>([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedClientId, setSelectedClientId] = useState<number>(Number);
 
@@ -29,7 +29,6 @@ const Condutor: React.FC = () => {
   const handleExcluirCondutor = async (id: number) => {
     try {
       await deleteCondutor(id);
-      // Atualiza a lista de condutores após a exclusão
       const data = await getCondutores();
       setCondutores(data);
       console.log("Condutor excluído com sucesso");
@@ -61,6 +60,7 @@ const Condutor: React.FC = () => {
               <Button
                 variant="contained"
                 color="secondary"
+                style={{ backgroundColor: "red", color: "white" }}
                 onClick={() => handleExcluirCondutor(condutor.id)}
               >
                 Excluir
@@ -68,6 +68,7 @@ const Condutor: React.FC = () => {
               <Button
                 variant="contained"
                 color="primary"
+                style={{ backgroundColor: "blue", color: "white" }}
                 onClick={() => {
                   setSelectedClientId(condutor.id);
                   setOpenModal(true);

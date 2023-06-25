@@ -51,6 +51,7 @@ const Veiculo: React.FC = () => {
               <Button
                 variant="contained"
                 color="secondary"
+                style={{ backgroundColor: "red", color: "white" }}
                 onClick={() => handleExcluirCondutor(veiculo.id)}
               >
                 Excluir
@@ -58,6 +59,7 @@ const Veiculo: React.FC = () => {
               <Button
                 variant="contained"
                 color="primary"
+                style={{ backgroundColor: "blue", color: "white" }}
                 onClick={() => {
                   setSelectedClientId(veiculo.id);
                   setOpenModal(true);
