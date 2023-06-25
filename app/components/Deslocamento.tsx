@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
-  CondutorData,
-  getCondutores,
-  deleteCondutor
-} from "../api/apiCondutor";
-import ModalCondutor from "../modalComponents/ModalCondutor";
+  DeslocamentoData,
+  getDeslocamentos
+} from "../api/apiDeslocamento";
+import ModalDeslocamento from "../modalComponents/ModalDeslocamento";
 import {
   Box,
   Container,
@@ -34,25 +33,27 @@ const theme = createTheme(adaptV4Theme({
 }));
 
 const Deslocamento: React.FC = () => {
-  const [condutores, setCondutores] = useState<CondutorData[]>([]);
+  const [deslocamentos, setDeslocamentos] = useState<DeslocamentoData[]>([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedClientId, setSelectedClientId] = useState<number>(Number);
 
+
   useEffect(() => {
-    const fetchCondutores = async () => {
-      const data = await getCondutores();
-      setCondutores(data);
+    const fetchDeslocamentos = async () => {
+      const data = await getDeslocamentos();
+      setDeslocamentos(data);
     };
 
-    fetchCondutores();
+    fetchDeslocamentos();
   }, []);
 
-  const handleExcluirCondutor = async (id: number) => {
+  const handleExcluirDeslocamento = async (id: number) => {
     try {
-      await deleteCondutor(id);
-      const data = await getCondutores();
-      setCondutores(data);
-      console.log("Condutor excluído com sucesso");
+      // Fazer a requisição DELETE para a API de deslocamento usando o ID do deslocamento
+      console.log(`Excluir deslocamento com ID ${id}`);
+      // Atualizar a lista de deslocamentos após a exclusão
+      const updatedDeslocamentos = deslocamentos.filter(deslocamento => deslocamento.id !== id);
+      setDeslocamentos(updatedDeslocamentos);
     } catch (error) {
       console.error(error);
     }
@@ -64,29 +65,29 @@ const Deslocamento: React.FC = () => {
         <Container>
           <Box sx={{ mt: 4 }}>
             <Typography variant="h4" align="center" gutterBottom>
-              Condutores
+              Deslocamentos
             </Typography>
             <Grid container spacing={2}>
-              {condutores.length > 0 ? (
-                condutores.map((condutor) => (
-                  <Grid item xs={12} key={condutor.id}>
+              {deslocamentos.length > 0 ? (
+                deslocamentos.map((deslocamento) => (
+                  <Grid item xs={12} key={deslocamento.id}>
                     <Paper sx={{ p: 2 }}>
-                      <Typography variant="body1">ID: {condutor.id}</Typography>
-                      <Typography variant="body1">Nome: {condutor.nome}</Typography>
-                      <Typography variant="body1">
-                        Número da Habilitação: {condutor.numeroHabilitacao}
-                      </Typography>
-                      <Typography variant="body1">
-                        Categoria da Habilitação: {condutor.categoriaHabilitacao}
-                      </Typography>
-                      <Typography variant="body1">
-                        Vencimento da Habilitação: {condutor.vencimentoHabilitacao}
-                      </Typography>
+                      <Typography variant="body1">ID: {deslocamento.id}</Typography>
+                      <Typography variant="body1">KM Inicial: {deslocamento.kmInicial}</Typography>
+                      <Typography variant="body1">KM Final: {deslocamento.kmFinal}</Typography>
+                      <Typography variant="body1">Início do Deslocamento: {deslocamento.inicioDeslocamento}</Typography>
+                      <Typography variant="body1">Fim do Deslocamento: {deslocamento.fimDeslocamento}</Typography>
+                      <Typography variant="body1">Checklist: {deslocamento.checkList}</Typography>
+                      <Typography variant="body1">Motivo: {deslocamento.motivo}</Typography>
+                      <Typography variant="body1">Observação: {deslocamento.observacao}</Typography>
+                      <Typography variant="body1">ID do Condutor: {deslocamento.idCondutor}</Typography>
+                      <Typography variant="body1">ID do Veículo: {deslocamento.idVeiculo}</Typography>
+                      <Typography variant="body1">ID do Cliente: {deslocamento.idCliente}</Typography>
                       <Button
                         variant="contained"
                         color="secondary"
                         startIcon={<RiDeleteBin2Line />}
-                        onClick={() => handleExcluirCondutor(condutor.id)}
+                        onClick={() => handleExcluirDeslocamento(deslocamento.id)}
                         sx={{ mt: 2, backgroundColor: 'red' }}
                       >
                         Excluir
@@ -96,7 +97,7 @@ const Deslocamento: React.FC = () => {
                         color="primary"
                         startIcon={<RiEdit2Line />}
                         onClick={() => {
-                          setSelectedClientId(condutor.id);
+                          setSelectedClientId(deslocamento.id);
                           setOpenModal(true);
                         }}
                         sx={{ mt: 2, backgroundColor: 'blue', color: 'white' }}
@@ -107,10 +108,10 @@ const Deslocamento: React.FC = () => {
                   </Grid>
                 ))
               ) : (
-                <Typography variant="body1">Nenhum condutor encontrado.</Typography>
+                <Typography variant="body1">Nenhum deslocamento encontrado.</Typography>
               )}
             </Grid>
-            <ModalCondutor
+            <ModalDeslocamento
               open={openModal}
               onClose={() => setOpenModal(false)}
               clientId={selectedClientId}
