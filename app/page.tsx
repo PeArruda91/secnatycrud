@@ -9,7 +9,6 @@ import {
   MenuItem,
   Select,
   Typography,
-  Theme,
   AppBar,
   Tabs,
   Tab,
@@ -22,6 +21,8 @@ import Veiculo from "./components/Veiculo";
 import RegisterClient from "./components/RegisterClient";
 import RegisterCondutor from "./components/RegisterCondutor";
 import RegisterVeiculo from "./components/RegisterVeiculo";
+import { Icon } from "@mui/material";
+import { FaDesktop, FaPen } from "react-icons/fa";
 
 const containerStyle: React.CSSProperties = {
   background: "default",
@@ -42,7 +43,18 @@ const selectStyle: React.CSSProperties = {
 };
 
 const appBarStyle: React.CSSProperties = {
-  backgroundColor: "primary",
+  backgroundImage: "linear-gradient(to right, #2C3E50, #9B59B6)",
+};
+
+const tabLabelStyle: React.CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  color: "#fff",
+};
+
+const selectedTabLabelStyle: React.CSSProperties = {
+  ...tabLabelStyle,
+  color: "carmin",
 };
 
 const App: React.FC = () => {
@@ -52,27 +64,47 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   const handleComponentChange = (
-    event: SelectChangeEvent<"clientes" | "deslocamento" | "condutor" | "veiculo">, child: ReactNode
+    event: SelectChangeEvent<"clientes" | "deslocamento" | "condutor" | "veiculo">,
+    child: ReactNode
   ) => {
     setSelectedComponent(
       event.target.value as "deslocamento" | "clientes" | "condutor" | "veiculo"
     );
   };
 
-  const handleTabChange = (
-    event: React.ChangeEvent<{}>,
-    newValue: number
-  ) => {
+  const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setActiveTab(newValue);
   };
 
   return (
     <div>
       <AppBar position="static" style={appBarStyle}>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <Tabs value={activeTab} onChange={handleTabChange}>
-            <Tab label="Verificar Dados" />
-            <Tab label="Criar Dados" />
+            <Tab
+              label={
+                <div
+                  style={activeTab === 0 ? selectedTabLabelStyle : tabLabelStyle}
+                >
+                  <Icon>
+                    <FaDesktop />
+                  </Icon>
+                  <span style={{ marginLeft: "8px" }}>Verificar Dados</span>
+                </div>
+              }
+            />
+            <Tab
+              label={
+                <div
+                  style={activeTab === 1 ? selectedTabLabelStyle : tabLabelStyle}
+                >
+                  <Icon>
+                    <FaPen />
+                  </Icon>
+                  <span style={{ marginLeft: "8px" }}>Criar Dados</span>
+                </div>
+              }
+            />
           </Tabs>
         </div>
       </AppBar>
@@ -91,6 +123,7 @@ const App: React.FC = () => {
                   value={selectedComponent}
                   onChange={handleComponentChange}
                   label="Componente"
+                  style={activeTab === 0 ? {} : { color: "carmin" }}
                 >
                   <MenuItem value="deslocamento">Deslocamento</MenuItem>
                   <MenuItem value="clientes">Clientes</MenuItem>
@@ -99,7 +132,7 @@ const App: React.FC = () => {
                 </Select>
               </FormControl>
               {selectedComponent === "deslocamento" ? (
-                <Deslocamento  />
+                <Deslocamento />
               ) : selectedComponent === "clientes" ? (
                 <Clientes />
               ) : selectedComponent === "condutor" ? (
@@ -121,6 +154,7 @@ const App: React.FC = () => {
                   value={selectedComponent}
                   onChange={handleComponentChange}
                   label="Tipo de Dado"
+                  style={activeTab === 1 ? {} : { color: "carmin" }}
                 >
                   <MenuItem value="clientes">Cliente</MenuItem>
                   <MenuItem value="condutor">Condutor</MenuItem>
@@ -132,8 +166,8 @@ const App: React.FC = () => {
                 <RegisterClient />
               ) : selectedComponent === "condutor" ? (
                 <RegisterCondutor />
-              ) : selectedComponent === "veiculo" && (
-                <RegisterVeiculo />
+              ) : (
+                selectedComponent === "veiculo" && <RegisterVeiculo />
               )}
             </>
           )}

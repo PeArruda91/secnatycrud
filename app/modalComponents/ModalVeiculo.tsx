@@ -65,18 +65,27 @@ const ModalVeiculo: React.FC<ModalComponentProps> = ({ open, onClose, clientId }
   }, [open, clientId]);
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <div>
+    <Modal open={open} onClose={onClose} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div
+        style={{
+          backgroundColor: "#ffffff", // White background color
+          padding: 20,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         {isLoading ? (
-          <div>
+          <div style={{ height: 200, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <CircularProgress />
           </div>
         ) : (
           <>
             {clientData ? (
               <>
-                <Typography variant="h6">Dados</Typography>               
-                <div>
+                <Typography variant="h6">Dados</Typography>
+                <div style={{ marginBottom: 16, width: "100%" }}>
                   <TextField
                     name="marcaModelo"
                     label="Modelo"
@@ -85,7 +94,7 @@ const ModalVeiculo: React.FC<ModalComponentProps> = ({ open, onClose, clientId }
                     fullWidth
                   />
                 </div>
-                <div>
+                <div style={{ marginBottom: 16, width: "100%" }}>
                   <TextField
                     name="anoFabricacao"
                     label="Ano de fabricação."
@@ -94,7 +103,7 @@ const ModalVeiculo: React.FC<ModalComponentProps> = ({ open, onClose, clientId }
                     fullWidth
                   />
                 </div>
-                <div>
+                <div style={{ marginBottom: 16, width: "100%" }}>
                   <TextField
                     name="kmAtual"
                     label="Kilometragem total atual."
@@ -110,7 +119,7 @@ const ModalVeiculo: React.FC<ModalComponentProps> = ({ open, onClose, clientId }
                 </div>
               </>
             ) : (
-              <Typography variant="body1"> Veiculo atualizado com sucesso.</Typography>
+              <Typography variant="body1">Veiculo atualizado com sucesso.</Typography>
             )}
           </>
         )}

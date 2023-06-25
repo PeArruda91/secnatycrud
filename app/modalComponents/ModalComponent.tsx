@@ -65,23 +65,19 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ open, onClose, clientId
   }, [open, clientId]);
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={onClose} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
       <div
         style={{
+          backgroundColor: "#ffffff", // White background color
+          padding: 20,
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
         {isLoading ? (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              height: 200,
-            }}
-          >
+          <div style={{ height: 200, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <CircularProgress />
           </div>
         ) : (
@@ -89,7 +85,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ open, onClose, clientId
             {clientData ? (
               <>
                 <Typography variant="h6">Dados</Typography>
-                <div style={{ marginBottom: 16 }}>
+                <div style={{ marginBottom: 16, width: "100%" }}>
                   <TextField
                     name="nome"
                     label="Name"
@@ -98,7 +94,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ open, onClose, clientId
                     fullWidth
                   />
                 </div>
-                <div style={{ marginBottom: 16 }}>
+                <div style={{ marginBottom: 16, width: "100%" }}>
                   <TextField
                     name="logradouro"
                     label="Address"
@@ -107,36 +103,36 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ open, onClose, clientId
                     fullWidth
                   />
                 </div>
-                <div style={{ marginBottom: 16 }}>
+                <div style={{ marginBottom: 16, width: "100%" }}>
                   <TextField
-                    name="logradouro"
+                    name="numero"
                     label="Numero"
                     value={editedData.numero || ""}
                     onChange={handleChange}
                     fullWidth
                   />
                 </div>
-                <div style={{ marginBottom: 16 }}>
+                <div style={{ marginBottom: 16, width: "100%" }}>
                   <TextField
-                    name="numero"
+                    name="bairro"
                     label="Bairro"
                     value={editedData.bairro || ""}
                     onChange={handleChange}
                     fullWidth
                   />
                 </div>
-                <div style={{ marginBottom: 16 }}>
+                <div style={{ marginBottom: 16, width: "100%" }}>
                   <TextField
-                    name="logradouro"
+                    name="cidade"
                     label="Cidade"
                     value={editedData.cidade || ""}
                     onChange={handleChange}
                     fullWidth
                   />
                 </div>
-                <div style={{ marginBottom: 16 }}>
+                <div style={{ marginBottom: 16, width: "100%" }}>
                   <TextField
-                    name="logradouro"
+                    name="uf"
                     label="UF"
                     value={editedData.uf || ""}
                     onChange={handleChange}

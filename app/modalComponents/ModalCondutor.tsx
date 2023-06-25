@@ -65,10 +65,19 @@ const ModalCondutor: React.FC<ModalComponentProps> = ({ open, onClose, clientId 
   }, [open, clientId]);
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <div>
+    <Modal open={open} onClose={onClose} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div
+        style={{
+          backgroundColor: "#ffffff", // White background color
+          padding: 20,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         {isLoading ? (
-          <div>
+          <div style={{ height: 200, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <CircularProgress />
           </div>
         ) : (
@@ -76,7 +85,7 @@ const ModalCondutor: React.FC<ModalComponentProps> = ({ open, onClose, clientId 
             {clientData ? (
               <>
                 <Typography variant="h6">Dados</Typography>               
-                <div>
+                <div style={{ marginBottom: 16, width: "100%" }}>
                   <TextField
                     name="categoriaHabilitação"
                     label="Categoria da Habilitação"
@@ -85,7 +94,7 @@ const ModalCondutor: React.FC<ModalComponentProps> = ({ open, onClose, clientId 
                     fullWidth
                   />
                 </div>
-                <div>
+                <div style={{ marginBottom: 16, width: "100%" }}>
                   <TextField
                     name="vencimento"
                     label="Vencimento habilitação"
@@ -95,14 +104,14 @@ const ModalCondutor: React.FC<ModalComponentProps> = ({ open, onClose, clientId 
                     fullWidth
                   />
                 </div>
-                <div>
+                <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 16 }}>
                   <Button variant="contained" color="primary" onClick={handleSave}>
                     Atualizar
                   </Button>
                 </div>
               </>
             ) : (
-              <Typography variant="body1"> Condutor atualizado com sucesso.</Typography>
+              <Typography variant="body1">Condutor atualizado com sucesso.</Typography>
             )}
           </>
         )}
