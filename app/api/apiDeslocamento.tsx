@@ -25,3 +25,18 @@ export const getDeslocamentos = async (): Promise<DeslocamentoData[]> => {
     return [];
   }
 };
+
+export const deleteDeslocamento = async (id: number): Promise<void> => {
+  try {
+    const options = {
+      method: 'DELETE',
+      url: `https://api-deslocamento.herokuapp.com/api/v1/Deslocamento/${id}`,
+      headers: {'Content-Type': 'application/json'},
+      data: {id: id}
+    };
+    await axios.request(options);
+    console.log("Veiculo excluído com sucesso");
+  } catch (error) {
+    console.error(error);
+  }
+};

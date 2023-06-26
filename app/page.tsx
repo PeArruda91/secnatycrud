@@ -21,6 +21,7 @@ import Veiculo from "./components/Veiculo";
 import RegisterClient from "./components/RegisterClient";
 import RegisterCondutor from "./components/RegisterCondutor";
 import RegisterVeiculo from "./components/RegisterVeiculo";
+import RegisterDeslocamento from "./components/RegisterDeslocamento";
 import { Icon } from "@mui/material";
 import { FaDesktop, FaPen } from "react-icons/fa";
 
@@ -162,12 +163,14 @@ const App: React.FC = () => {
                   <MenuItem value="deslocamento">Deslocamento</MenuItem>
                 </Select>
               </FormControl>
-              {selectedComponent === "clientes" ? (
+              {selectedComponent === "deslocamento" ? (
+                <RegisterDeslocamento />
+              ) : selectedComponent === "clientes" ? (
                 <RegisterClient />
               ) : selectedComponent === "condutor" ? (
                 <RegisterCondutor />
               ) : (
-                selectedComponent === "veiculo" && <RegisterVeiculo />
+                <RegisterVeiculo />
               )}
             </>
           )}

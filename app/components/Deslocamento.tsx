@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
   DeslocamentoData,
-  getDeslocamentos
+  getDeslocamentos,
+  deleteDeslocamento
 } from "../api/apiDeslocamento";
 import ModalDeslocamento from "../modalComponents/ModalDeslocamento";
 import {
@@ -48,12 +49,10 @@ const Deslocamento: React.FC = () => {
   }, []);
 
   const handleExcluirDeslocamento = async (id: number) => {
-    try {
-      // Fazer a requisição DELETE para a API de deslocamento usando o ID do deslocamento
-      console.log(`Excluir deslocamento com ID ${id}`);
-      // Atualizar a lista de deslocamentos após a exclusão
-      const updatedDeslocamentos = deslocamentos.filter(deslocamento => deslocamento.id !== id);
-      setDeslocamentos(updatedDeslocamentos);
+    try {await deleteDeslocamento(id);
+      const data = await getDeslocamentos();
+      setDeslocamentos(data);
+      console.log("Condutor excluído com sucesso");
     } catch (error) {
       console.error(error);
     }
