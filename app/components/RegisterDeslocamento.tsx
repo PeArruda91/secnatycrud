@@ -146,7 +146,8 @@ const RegisterDeslocamento: React.FC = () => {
               name="idVeiculo"
               value={formData.idVeiculo}
               onChange={handleChange}
-              style={{ display: 'block' }}
+              style={{ 
+                display: 'block' }}
             >
               {veiculos.map((veiculo) => (
                 <option key={veiculo.id} value={veiculo.id}>
