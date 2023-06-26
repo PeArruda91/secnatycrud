@@ -1,30 +1,16 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { TextField, Button, Grid, Paper } from '@mui/material';
+import React, { useState, ChangeEvent, FormEvent, useEffect, ChangeEventHandler } from 'react';
 import {
-  createTheme,
-  ThemeProvider,
-  StyledEngineProvider,
-  adaptV4Theme,
-} from '@mui/material/styles';
+  TextField,
+  Button,
+  Grid,
+  Paper,
+} from '@mui/material';
 import postDeslocamento from '../api/postDeslocamento';
 import { getCondutores, CondutorData } from '../api/apiCondutor';
 import { getVeiculos, VeiculoData } from '../api/apiVeiculo';
 import { getClientes, ClienteData } from '../api/apiClientes';
 
-
-
-const theme = createTheme(adaptV4Theme({
-  palette: {
-    primary: {
-      main: '#003366', // Azul petróleo
-    },
-    secondary: {
-      main: '#8e44ad', // Lilás
-    },
-  },
-}));
-
-const RegisterDeslocamento = () => {
+const RegisterDeslocamento: React.FC = () => {
   const [formData, setFormData] = useState({
     kmInicial: '',
     inicioDeslocamento: '',
@@ -36,10 +22,54 @@ const RegisterDeslocamento = () => {
     idCliente: '',
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const [condutores, setCondutores] = useState<CondutorData[]>([]);
+  const [veiculos, setVeiculos] = useState<VeiculoData[]>([]);
+  const [clientes, setClientes] = useState<ClienteData[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchedCondutores: CondutorData[] = await getCondutores();
+        const fetchedVeiculos: VeiculoData[] = await getVeiculos();
+        const fetchedClientes: ClienteData[] = await getClientes();
+
+        setCondutores(fetchedCondutores);
+        setVeiculos(fetchedVeiculos);
+        setClientes(fetchedClientes);
+
+        if (fetchedCondutores.length > 0) {
+          setFormData((prevData) => ({
+            ...prevData,
+            idCondutor: String(fetchedCondutores[0].id),
+          }));
+        }
+
+        if (fetchedVeiculos.length > 0) {
+          setFormData((prevData) => ({
+            ...prevData,
+            idVeiculo: String(fetchedVeiculos[0].id),
+          }));
+        }
+
+        if (fetchedClientes.length > 0) {
+          setFormData((prevData) => ({
+            ...prevData,
+            idCliente: String(fetchedClientes[0].id),
+          }));
+        }
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleChange : ChangeEventHandler  = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
   };
 
@@ -49,91 +79,109 @@ const RegisterDeslocamento = () => {
   };
 
   return (
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        <Grid container justifyContent="center">
-          <Grid item xs={10} sm={8} md={6} lg={4}>
-            <Paper sx={{ p: 4 }}>
-              <form onSubmit={handleSubmit}>
-                <TextField
-                  fullWidth
-                  label="kmInicial"
-                  name="kmInicial"
-                  value={formData.kmInicial}
-                  onChange={handleChange}
-                  margin="normal"
-                />
-                <TextField
-                  fullWidth
-                  label="Inicio Deslocamento"
-                  name="inicioDeslocamento"
-                  type="datetime-local"
-                  value={formData.inicioDeslocamento}
-                  onChange={handleChange}
-                  margin="normal"
-                />
-                <TextField
-                  fullWidth
-                  label="CheckList"
-                  name="checkList"
-                  value={formData.checkList}
-                  onChange={handleChange}
-                  margin="normal"
-                />
-                <TextField
-                  fullWidth
-                  label="Motivo"
-                  name="motivo"
-                  value={formData.motivo}
-                  onChange={handleChange}
-                  margin="normal"
-                />
-                <TextField
-                  fullWidth
-                  label="Observacao"
-                  name="observacao"
-                  value={formData.observacao}
-                  onChange={handleChange}
-                  margin="normal"
-                />
-                <TextField
-                  fullWidth
-                  label="ID Condutor"
-                  name="idCondutor"
-                  value={formData.idCondutor}
-                  onChange={handleChange}
-                  margin="normal"
-                />
-                <TextField
-                  fullWidth
-                  label="ID Veiculo"
-                  name="idVeiculo"
-                  value={formData.idVeiculo}
-                  onChange={handleChange}
-                  margin="normal"
-                />
-                <TextField
-                  fullWidth
-                  label="ID Cliente"
-                  name="idCliente"
-                  value={formData.idCliente}
-                  onChange={handleChange}
-                  margin="normal"
-                />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  sx={{ mt: 2 }}
-                >
-                  Registrar Deslocamento
-                </Button>
-              </form>
-            </Paper>
-          </Grid>
-        </Grid>
-      </ThemeProvider>
-    </StyledEngineProvider>
+    <Grid container justifyContent="center">
+      <Grid item xs={10} sm={8} md={6} lg={4}>
+        <Paper sx={{ p: 4 }}>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              fullWidth
+              label="kmInicial"
+              name="kmInicial"
+              value={formData.kmInicial}
+              onChange={handleChange}
+              margin="normal"
+            />
+            <TextField
+              fullWidth
+              label="Inicio Deslocamento"
+              name="inicioDeslocamento"
+              type="datetime-local"
+              value={formData.inicioDeslocamento}
+              onChange={handleChange}
+              margin="normal"
+            />
+            <TextField
+              fullWidth
+              label="CheckList"
+              name="checkList"
+              value={formData.checkList}
+              onChange={handleChange}
+              margin="normal"
+            />
+            <TextField
+              fullWidth
+              label="Motivo"
+              name="motivo"
+              value={formData.motivo}
+              onChange={handleChange}
+              margin="normal"
+            />
+            <TextField
+              fullWidth
+              label="Observacao"
+              name="observacao"
+              value={formData.observacao}
+              onChange={handleChange}
+              margin="normal"
+            />
+
+            {/* Caixa seletora para idCondutor */}
+            <label htmlFor="idCondutor">ID Condutor:</label>
+            <select
+              name="idCondutor"
+              value={formData.idCondutor}
+              onChange={handleChange}
+              style={{ display: 'block' }}
+            >
+              {condutores.map((condutor) => (
+                <option key={condutor.id} value={condutor.id}>
+                  {condutor.id}
+                </option>
+              ))}
+            </select>
+
+            {/* Caixa seletora para idVeiculo */}
+            <label htmlFor="idVeiculo">ID Veiculo:</label>
+            <select
+              name="idVeiculo"
+              value={formData.idVeiculo}
+              onChange={handleChange}
+              style={{ display: 'block' }}
+            >
+              {veiculos.map((veiculo) => (
+                <option key={veiculo.id} value={veiculo.id}>
+                  {veiculo.id}
+                </option>
+              ))}
+            </select>
+
+            {/* Caixa seletora para idCliente */}
+            <label htmlFor="idCliente">ID Cliente:</label>
+            <select
+              name="idCliente"
+              value={formData.idCliente}
+              onChange={handleChange}
+              style={{ display: 'block' }}
+            >
+              {clientes.map((cliente) => (
+                <option key={cliente.id} value={cliente.id}>
+                  {cliente.id}
+                </option>
+              ))}
+            </select>
+
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              sx={{ mt: 2 }}
+            >
+              Registrar Deslocamento
+            </Button>
+          </form>
+        </Paper>
+      </Grid>
+    </Grid>
   );
 };
 
