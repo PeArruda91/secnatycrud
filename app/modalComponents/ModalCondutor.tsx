@@ -1,11 +1,10 @@
-"use client"
-
 import React, { useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { MenuItem }  from "@mui/material"
 import axios from "axios";
 
 interface ModalComponentProps {
@@ -84,22 +83,29 @@ const ModalCondutor: React.FC<ModalComponentProps> = ({ open, onClose, clientId 
           <>
             {clientData ? (
               <>
-                <Typography variant="h6">Dados</Typography>               
+                <Typography variant="h6">Dados</Typography>
                 <div style={{ marginBottom: 16, width: "100%" }}>
                   <TextField
-                    name="categoriaHabilitação"
+                    name="categoriaHabilitacao"
                     label="Categoria da Habilitação"
-                    value={editedData.categoriaHabilitacao || ""}
+                    value={editedData.catergoriaHabilitacao || ""}
                     onChange={handleChange}
                     fullWidth
-                  />
+                    select
+                    >
+                      <MenuItem value="A">A</MenuItem>
+                      <MenuItem value="B">B</MenuItem>
+                      <MenuItem value="C">C</MenuItem>
+                      <MenuItem value="D">D</MenuItem>
+                      <MenuItem value="E">E</MenuItem>
+                </TextField>
                 </div>
                 <div style={{ marginBottom: 16, width: "100%" }}>
                   <TextField
-                    name="vencimento"
+                    name="vencimentoHabilitacao"
                     label="Vencimento habilitação"
                     value={editedData.vencimentoHabilitacao || ""}
-                    type="date"
+                    type="datetime-local"
                     onChange={handleChange}
                     fullWidth
                   />

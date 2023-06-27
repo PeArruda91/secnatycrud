@@ -77,7 +77,7 @@ const Condutor: React.FC = () => {
                         Número da Habilitação: {condutor.numeroHabilitacao}
                       </Typography>
                       <Typography variant="body1">
-                        Categoria da Habilitação: {condutor.categoriaHabilitacao}
+                        Categoria da Habilitação: {condutor.catergoriaHabilitacao}
                       </Typography>
                       <Typography variant="body1">
                         Vencimento da Habilitação: {condutor.vencimentoHabilitacao}
