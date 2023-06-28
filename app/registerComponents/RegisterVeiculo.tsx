@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { TextField, Button, Grid, Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -31,9 +29,18 @@ const RegisterVeiculo = () => {
     }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    postVeiculo(formData);
+    await postVeiculo(formData);
+    alert('O Veículo foi registrado');
+  };
+
+  const handleNumericInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const numericValue = e.target.value.replace(/[^0-9]/g, '');
+    setFormData((prevData) => ({
+      ...prevData,
+      [e.target.name]: numericValue,
+    }));
   };
 
   return (
@@ -63,16 +70,18 @@ const RegisterVeiculo = () => {
                 label="Ano de Fabricação"
                 name="anoFabricacao"
                 value={formData.anoFabricacao}
-                onChange={handleChange}
+                onChange={handleNumericInput}
                 margin="normal"
+                inputProps={{ inputMode: 'numeric' }}
               />
               <TextField
                 fullWidth
                 label="Km Atual"
                 name="kmAtual"
                 value={formData.kmAtual}
-                onChange={handleChange}
+                onChange={handleNumericInput}
                 margin="normal"
+                inputProps={{ inputMode: 'numeric' }}
               />
               <Button
                 type="submit"
@@ -80,7 +89,7 @@ const RegisterVeiculo = () => {
                 color="primary"
                 sx={{ mt: 2 }}
               >
-                Registrar Condutor
+                Registrar Veículo
               </Button>
             </form>
           </Paper>

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const postCliente = (formData: {
+const postCondutor = (formData: {
   nome: string;
   numeroHabilitacao: string;
   categoriaHabilitacao: string;
@@ -22,4 +22,4 @@ const postCliente = (formData: {
     });
 };
 
-export default postCliente;
+export default postCondutor;

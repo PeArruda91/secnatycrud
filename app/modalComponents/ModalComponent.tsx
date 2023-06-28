@@ -109,6 +109,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ open, onClose, clientId
                     label="Numero"
                     value={editedData.numero || ""}
                     onChange={handleChange}
+                    inputProps={{ inputMode: 'numeric' }}
                     fullWidth
                   />
                 </div>
@@ -147,7 +148,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ open, onClose, clientId
                 </div>
               </>
             ) : (
-              <Typography variant="body1">Cliente atualizado com sucesso.</Typography>
+              <Typography variant="body1">Cliente atualizado com sucesso. Por favor atualizar a página.</Typography>
             )}
           </>
         )}

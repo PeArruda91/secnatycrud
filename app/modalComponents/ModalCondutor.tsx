@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -16,7 +16,10 @@ interface ModalComponentProps {
 const ModalCondutor: React.FC<ModalComponentProps> = ({ open, onClose, clientId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [clientData, setClientData] = useState<any>(null);
-  const [editedData, setEditedData] = useState<any>({});
+  const [editedData, setEditedData] = useState({
+    categoriaHabilitacao: '',
+    vencimentoHabilitacao: ''
+  });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -25,6 +28,16 @@ const ModalCondutor: React.FC<ModalComponentProps> = ({ open, onClose, clientId 
       [name]: value,
     }));
   };
+
+  const handleAlphabeticInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const alphabeticValue = e.target.value.replace(/[^a-zA-Z]/g, '');
+    setEditedData((prevData: any) => ({
+      ...prevData,
+      [e.target.name]: alphabeticValue,
+    }));
+  };
+
+  
 
   const handleSave = async () => {
     const options = {
@@ -88,17 +101,10 @@ const ModalCondutor: React.FC<ModalComponentProps> = ({ open, onClose, clientId 
                   <TextField
                     name="categoriaHabilitacao"
                     label="Categoria da Habilitação"
-                    value={editedData.catergoriaHabilitacao || ""}
-                    onChange={handleChange}
+                    value={editedData.categoriaHabilitacao || ""}
+                    onChange={handleAlphabeticInput}
                     fullWidth
-                    select
-                    >
-                      <MenuItem value="A">A</MenuItem>
-                      <MenuItem value="B">B</MenuItem>
-                      <MenuItem value="C">C</MenuItem>
-                      <MenuItem value="D">D</MenuItem>
-                      <MenuItem value="E">E</MenuItem>
-                </TextField>
+                    />
                 </div>
                 <div style={{ marginBottom: 16, width: "100%" }}>
                   <TextField
@@ -117,7 +123,7 @@ const ModalCondutor: React.FC<ModalComponentProps> = ({ open, onClose, clientId 
                 </div>
               </>
             ) : (
-              <Typography variant="body1">Condutor atualizado com sucesso.</Typography>
+              <Typography variant="body1">Condutor atualizado com sucesso. Por favor atualizar a página.</Typography>
             )}
           </>
         )}

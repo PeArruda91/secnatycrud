@@ -18,10 +18,10 @@ import Deslocamento from "./components/Deslocamento";
 import Clientes from "./components/Clientes";
 import Condutor from "./components/Condutor";
 import Veiculo from "./components/Veiculo";
-import RegisterClient from "./components/RegisterClient";
-import RegisterCondutor from "./components/RegisterCondutor";
-import RegisterVeiculo from "./components/RegisterVeiculo";
-import RegisterDeslocamento from "./components/RegisterDeslocamento";
+import RegisterClient from "./registerComponents/RegisterClient"
+import RegisterCondutor from "./registerComponents/RegisterCondutor";
+import RegisterVeiculo from "./registerComponents/RegisterVeiculo";
+import RegisterDeslocamento from "./registerComponents/RegisterDeslocamento";
 import { Icon } from "@mui/material";
 import { FaDesktop, FaPen } from "react-icons/fa";
 

@@ -76,6 +76,15 @@ const RegisterDeslocamento: React.FC = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     postDeslocamento(formData);
+    alert('O Deslocamento foi registrado');
+  };
+
+  const handleNumericInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const numericValue = e.target.value.replace(/[^0-9]/g, '');
+    setFormData((prevData) => ({
+      ...prevData,
+      [e.target.name]: numericValue,
+    }));
   };
 
   return (
@@ -88,12 +97,13 @@ const RegisterDeslocamento: React.FC = () => {
               label="kmInicial"
               name="kmInicial"
               value={formData.kmInicial}
-              onChange={handleChange}
+              onChange={handleNumericInput}
+              inputProps={{ inputMode: 'numeric' }}
               margin="normal"
             />
             <TextField
               fullWidth
-              label="Inicio Deslocamento"
+              label="Inicio"
               name="inicioDeslocamento"
               type="datetime-local"
               value={formData.inicioDeslocamento}
@@ -125,7 +135,11 @@ const RegisterDeslocamento: React.FC = () => {
               margin="normal"
             />
 
-            {/* Caixa seletora para idCondutor */}
+            {/* Fugi um pouco do MUI aqui mais por conta da praticidade de colocar uma caixa 
+                seletora dentro do código. Assim já atualizando diretamente com a API  nos atributos:
+                Condutor
+                Veiculo
+                Cliente*/}
             <label htmlFor="idCondutor">ID Condutor:</label>
             <select
               name="idCondutor"

@@ -2,7 +2,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { TextField, Button, Grid, Paper, MenuItem } from '@mui/material';
 import { createTheme, ThemeProvider, Theme, StyledEngineProvider, adaptV4Theme } from '@mui/material/styles';
-import postCliente from '../api/postCondutor';
+import postCondutor from '../api/postCondutor';
 
 
 
@@ -35,8 +35,20 @@ const RegisterCondutor = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    postCliente(formData);
+    postCondutor(formData);
+    alert('O Condutor foi registrado com sucesso')
   };
+
+  const handleNumericInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const numericValue = e.target.value.replace(/[^0-9]/g, '');
+    setFormData((prevData) => ({
+      ...prevData,
+      [e.target.name]: numericValue,
+    }));
+  };
+
+  
+  
 
   return (
     <StyledEngineProvider injectFirst>
@@ -58,7 +70,8 @@ const RegisterCondutor = () => {
                   label="Número Habilitação"
                   name="numeroHabilitacao"
                   value={formData.numeroHabilitacao}
-                  onChange={handleChange}
+                  onChange={handleNumericInput}
+                  inputProps={{ inputMode: 'numeric' }}
                   margin="normal"
                 />
                 <TextField
@@ -68,17 +81,12 @@ const RegisterCondutor = () => {
                   value={formData.categoriaHabilitacao}
                   onChange={handleChange}
                   margin="normal"
-                  select
-                >
-                  <MenuItem value="A">A</MenuItem>
-                  <MenuItem value="B">B</MenuItem>
-                  <MenuItem value="C">C</MenuItem>
-                  <MenuItem value="D">D</MenuItem>
-                  <MenuItem value="E">E</MenuItem>
-                </TextField>
+                  
+                />
+                
                 <TextField
                   fullWidth
-                  label=""
+                  label="Vencimento da  Habilitação"
                   name="vencimentoHabilitacao"
                   type="date"
                   value={formData.vencimentoHabilitacao}

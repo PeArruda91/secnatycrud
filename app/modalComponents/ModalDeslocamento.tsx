@@ -28,6 +28,8 @@ const ModalDeslocamento: React.FC<ModalComponentProps> = ({ open, onClose, clien
     }));
   };
 
+  
+
   const handleSave = async () => {
     const options = {
       method: "PUT",
@@ -92,13 +94,14 @@ const ModalDeslocamento: React.FC<ModalComponentProps> = ({ open, onClose, clien
                     label="Km Final"
                     value={editedData.kmFinal || ""}
                     onChange={handleChange}
+                    inputProps={{ inputMode: 'numeric' }}
                     fullWidth
                   />
                 </div>
                 <div style={{ marginBottom: 16, width: "100%" }}>
                   <TextField
                     name="fimDeslocamento"
-                    label="Final do Deslocamento"
+                    label=""
                     value={editedData.fimDeslocamento || ""}
                     type="datetime-local"
                     onChange={handleChange}
@@ -122,7 +125,7 @@ const ModalDeslocamento: React.FC<ModalComponentProps> = ({ open, onClose, clien
               </>
             ) : (
               <Typography variant="body1">
-                Condutor atualizado com sucesso em: {format(new Date(), "dd/MM/yyyy HH:mm")}
+                Deslocamento atualizado com sucesso. Por favor atualizar a página
               </Typography>
             )}
           </>

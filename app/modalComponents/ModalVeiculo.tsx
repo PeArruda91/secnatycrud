@@ -100,6 +100,7 @@ const ModalVeiculo: React.FC<ModalComponentProps> = ({ open, onClose, clientId }
                     label="Ano de fabricação."
                     value={editedData.anoFabricacao || ""}
                     onChange={handleChange}
+                    inputProps={{ inputMode: 'numeric' }}
                     fullWidth
                   />
                 </div>
@@ -109,6 +110,7 @@ const ModalVeiculo: React.FC<ModalComponentProps> = ({ open, onClose, clientId }
                     label="Kilometragem total atual."
                     value={editedData.kmAtual || ""}
                     onChange={handleChange}
+                    inputProps={{ inputMode: 'numeric' }}
                     fullWidth
                   />
                 </div>
@@ -119,7 +121,7 @@ const ModalVeiculo: React.FC<ModalComponentProps> = ({ open, onClose, clientId }
                 </div>
               </>
             ) : (
-              <Typography variant="body1">Veiculo atualizado com sucesso.</Typography>
+              <Typography variant="body1">Veicuto atualizado com sucesso. Por favor atualizar a página</Typography>
             )}
           </>
         )}
