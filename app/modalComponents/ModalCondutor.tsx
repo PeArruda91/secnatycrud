@@ -62,7 +62,10 @@ const ModalCondutor: React.FC<ModalComponentProps> = ({ open, onClose, clientId 
       try {
         const response = await axios.get(`https://api-deslocamento.herokuapp.com/api/v1/Condutor/${clientId}`);
         setClientData(response.data);
-        setEditedData(response.data);
+        setEditedData({
+          categoriaHabilitacao: response.data.catergoriaHabilitacao, 
+          vencimentoHabilitacao: response.data.vencimentoHabilitacao
+        });
       } catch (error) {
         console.error(error);
       } finally {
