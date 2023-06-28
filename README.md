@@ -19,4 +19,4 @@ Licença
 Este projeto está licenciado sob a MIT License.
 
 Agradecimentos
-Gostaríamos de agradecer à Secretaria Naty pelo apoio e oportunidade de desenvolver este projeto.
+Gostaría de agradecer à Secretaria Naty pelo apoio e oportunidade de desenvolver este projeto.
